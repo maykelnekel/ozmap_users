@@ -1,5 +1,5 @@
-import users from "../../database/index.js";
-import { v4 as uuidv4 } from "uuid";
+const users = require("../../database/index.js");
+const { v4: uuidv4 } = require("uuid");
 
 const create = (payload) => {
   const user = {
@@ -10,4 +10,4 @@ const create = (payload) => {
   return user;
 };
 
-export default create;
+module.exports = create;

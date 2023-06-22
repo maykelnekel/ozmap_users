@@ -1,8 +1,8 @@
-import findUserIndex from "../helpers/findUserIndex.helper.js";
+const findUserIndex = require("../helpers/findUserIndex.helper");
 
 const verifyIdExist = (ctx, next) => {
   const index = findUserIndex(ctx.params.id);
-  if (!index) {
+  if (index === false) {
     ctx.status = 404;
     ctx.body = { error: "User not found!" };
   } else {
@@ -11,4 +11,4 @@ const verifyIdExist = (ctx, next) => {
   }
 };
 
-export default verifyIdExist;
+module.exports = verifyIdExist;

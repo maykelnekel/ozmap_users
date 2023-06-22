@@ -1,4 +1,4 @@
-import users from "../../database/index.js";
+const users = require("../../database/index.js");
 
 const update = (payload, index) => {
   const newUser = {
@@ -11,4 +11,4 @@ const update = (payload, index) => {
   return newUser;
 };
 
-export default update;
+module.exports = update;

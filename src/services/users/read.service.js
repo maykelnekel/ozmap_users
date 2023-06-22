@@ -1,7 +1,7 @@
-import users from "../../database/index.js";
+const users = require("../../database/index.js");
 
 const read = () => {
   return users;
 };
 
-export default read;
+module.exports = read;

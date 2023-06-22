@@ -1,7 +1,7 @@
-import users from "../database/index.js";
+const users = require("../database/index.js");
 
-const findUserIndex = (id) => {
-  const index = users.findIndex((user) => user.id === id);
+const findUserIndex = (name) => {
+  const index = users.findIndex((user) => user.name === name);
   if (index >= 0) {
     return index;
   } else {
@@ -9,4 +9,4 @@ const findUserIndex = (id) => {
   }
 };
 
-export default findUserIndex;
+module.exports = findUserIndex;

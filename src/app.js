@@ -6,10 +6,10 @@
 
 // todas as configuraçoes devem ser passadas via environment variables
 
-import Koa from "koa";
-import bodyParser from "koa-bodyparser";
+const Koa = require("koa");
+const bodyParser = require("koa-bodyparser");
 
-import userRouter from "./routes/user.routes.js";
+const userRouter = require("./routes/user.routes.js");
 
 const koa = new Koa();
 
@@ -18,4 +18,4 @@ const koa = new Koa();
 
 koa.use(bodyParser()).use(userRouter.routes()).use(userRouter.allowedMethods());
 
-export default koa;
+module.exports = koa;

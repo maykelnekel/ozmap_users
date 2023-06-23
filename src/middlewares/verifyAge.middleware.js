@@ -1,5 +1,4 @@
 const errorMessages = require("../../test/mocks/erroMessages");
-const userSchema = require("../../test/schemas");
 
 const verifyAge = (ctx, next) => {
   const body = ctx.request.body;

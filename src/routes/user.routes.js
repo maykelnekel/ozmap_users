@@ -1,4 +1,6 @@
 const Router = require("koa-router");
+const static = require("koa-static");
+
 const createController = require("../controllers/users/create.controller");
 const readController = require("../controllers/users/read.controller");
 const readOneController = require("../controllers/users/readOne.controller");
@@ -13,9 +15,11 @@ const veryifyTypeOfFields = require("../middlewares/veryifyTypeOfFields.middlewa
 
 const router = new Router();
 
-const PORT = process.env.PORT || 3000;
+router.use(static(__dirname + "../../../public"));
+
 router.get("/", async (ctx) => {
-  ctx.body = `Seu servidor esta rodando em http://localhost:${PORT}`;
+  ctx.type = "html";
+  ctx.body = fs.createReadStream(__dirname + "../../../public/index.html");
 });
 
 router

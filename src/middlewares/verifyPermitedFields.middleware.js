@@ -1,3 +1,4 @@
+const errorMessages = require("../../test/mocks/erroMessages");
 const userSchema = require("../../test/schemas");
 
 const verifyPermitedFields = (ctx, next) => {
@@ -6,9 +7,9 @@ const verifyPermitedFields = (ctx, next) => {
 
   const verify = keys.some((element) => !userSchema.required.includes(element));
   if (verify) {
-    ctx.status = 409;
+    ctx.status = 400;
     ctx.body = {
-      error: "Os campos permitidos são apenas: nome, email, idade",
+      error: errorMessages.campoInvalido,
     };
   } else {
     return next();

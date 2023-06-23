@@ -58,7 +58,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body.error).to.be.eql(
-          errorMessages.campoFaltandoOuTipoInvalido
+          errorMessages.campoFaltandoOuTipoInvalidoPOST
         );
 
         done();
@@ -73,7 +73,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body.error).to.be.eql(
-          errorMessages.campoFaltandoOuTipoInvalido
+          errorMessages.campoFaltandoOuTipoInvalidoPOST
         );
 
         done();
@@ -88,7 +88,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body.error).to.be.eql(
-          errorMessages.campoFaltandoOuTipoInvalido
+          errorMessages.campoFaltandoOuTipoInvalidoPOST
         );
 
         done();
@@ -103,7 +103,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body.error).to.be.eql(
-          errorMessages.campoFaltandoOuTipoInvalido
+          errorMessages.campoFaltandoOuTipoInvalidoPOST
         );
 
         done();
@@ -118,7 +118,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body.error).to.be.eql(
-          errorMessages.campoFaltandoOuTipoInvalido
+          errorMessages.campoFaltandoOuTipoInvalidoPOST
         );
 
         done();
@@ -133,7 +133,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body.error).to.be.eql(
-          errorMessages.campoFaltandoOuTipoInvalido
+          errorMessages.campoFaltandoOuTipoInvalidoPOST
         );
 
         done();
@@ -173,7 +173,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .send(invalidUsers.campoInvalido)
       .end(function (err, res) {
         expect(err).to.be.null;
-        expect(res).to.have.status(409);
+        expect(res).to.have.status(400);
         expect(res.body).to.be.an("object");
         expect(res.body.error).to.be.eql(errorMessages.campoInvalido);
         done();
@@ -304,7 +304,7 @@ describe("Testes de atualização de um usuário - PATCH /user/:nome", () => {
         expect(res).to.have.status(400);
         expect(res.body).to.be.an("object");
         expect(res.body.error).to.be.eql(
-          errorMessages.campoFaltandoOuTipoInvalido
+          errorMessages.campoFaltandoOuTipoInvalidoPATCH
         );
         done();
       });
@@ -320,7 +320,7 @@ describe("Testes de atualização de um usuário - PATCH /user/:nome", () => {
         expect(res).to.have.status(400);
         expect(res.body).to.be.an("object");
         expect(res.body.error).to.be.eql(
-          errorMessages.campoFaltandoOuTipoInvalido
+          errorMessages.campoFaltandoOuTipoInvalidoPATCH
         );
         done();
       });
@@ -336,7 +336,7 @@ describe("Testes de atualização de um usuário - PATCH /user/:nome", () => {
         expect(res).to.have.status(400);
         expect(res.body).to.be.an("object");
         expect(res.body.error).to.be.eql(
-          errorMessages.campoFaltandoOuTipoInvalido
+          errorMessages.campoFaltandoOuTipoInvalidoPATCH
         );
         done();
       });
@@ -349,7 +349,7 @@ describe("Testes de atualização de um usuário - PATCH /user/:nome", () => {
       .send(invalidUsers.campoInvalido)
       .end(function (err, res) {
         expect(err).to.be.null;
-        expect(res).to.have.status(409);
+        expect(res).to.have.status(400);
         expect(res.body).to.be.an("object");
         expect(res.body.error).to.be.eql(errorMessages.campoInvalido);
         done();

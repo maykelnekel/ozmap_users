@@ -1,3 +1,4 @@
+const errorMessages = require("../../test/mocks/erroMessages");
 const userSchema = require("../../test/schemas");
 
 const verifyRequiredFields = (ctx, next) => {
@@ -10,7 +11,7 @@ const verifyRequiredFields = (ctx, next) => {
   if (verify) {
     ctx.status = 400;
     ctx.body = {
-      error: `Os campos a seguir são obrigatórios e devem ser do tipo especificado: ${userSchema.properties}`,
+      error: errorMessages.campoFaltandoOuTipoInvalidoPOST,
     };
   } else {
     return next();

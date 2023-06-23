@@ -1,3 +1,4 @@
+const errorMessages = require("../../test/mocks/erroMessages");
 const userSchema = require("../../test/schemas");
 
 const verifyAge = (ctx, next) => {
@@ -6,7 +7,7 @@ const verifyAge = (ctx, next) => {
   if (body.idade < 18) {
     ctx.status = 409;
     ctx.body = {
-      error: "Usuários com menos de 18 anos não são permitidos",
+      error: errorMessages.menorDeIdade,
     };
   } else {
     return next();

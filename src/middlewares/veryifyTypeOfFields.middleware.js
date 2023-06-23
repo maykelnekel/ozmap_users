@@ -1,11 +1,13 @@
 const userSchema = require("../../test/schemas");
 
-const verifyRequiredFields = (ctx, next) => {
+const veryifyTypeOfFields = (ctx, next) => {
   const body = ctx.request.body;
   const keys = Object.keys(body);
 
-  const verify = userSchema.required.some((element) => {
-    return !keys.includes(element);
+  const verify = keys.some((element) => {
+    if (userSchema.properties[element]) {
+      return typeof body[element] !== userSchema.properties[element].type;
+    }
   });
   if (verify) {
     ctx.status = 400;
@@ -17,4 +19,4 @@ const verifyRequiredFields = (ctx, next) => {
   }
 };
 
-module.exports = verifyRequiredFields;
+module.exports = veryifyTypeOfFields;

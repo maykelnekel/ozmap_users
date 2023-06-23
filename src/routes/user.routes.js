@@ -5,6 +5,11 @@ const readOneController = require("../controllers/users/readOne.controller");
 const updateController = require("../controllers/users/update.controller");
 const deleteController = require("../controllers/users/delete.controller");
 const verifyUserExist = require("../middlewares/verifyUserExist.middleware");
+const verifyRequiredFields = require("../middlewares/verifyRequiredFields.middleware");
+const verifyPermitedFields = require("../middlewares/verifyPermitedFields.middleware");
+const verifyAge = require("../middlewares/verifyAge.middleware");
+const verifyEmailAlreadyExists = require("../middlewares/verifyEmailAlreadyExists.middleware");
+const veryifyTypeOfFields = require("../middlewares/veryifyTypeOfFields.middleware");
 
 const router = new Router();
 
@@ -15,7 +20,15 @@ router.get("/", async (ctx) => {
 
 router
   .get("/users", (ctx) => readController(ctx))
-  .post("/user", (ctx) => createController(ctx))
+  .post(
+    "/user",
+    (ctx, next) => verifyRequiredFields(ctx, next),
+    (ctx, next) => verifyPermitedFields(ctx, next),
+    (ctx, next) => veryifyTypeOfFields(ctx, next),
+    (ctx, next) => verifyAge(ctx, next),
+    (ctx, next) => verifyEmailAlreadyExists(ctx, next),
+    (ctx) => createController(ctx)
+  )
   .delete(
     "/user/:nome",
     (ctx, next) => verifyUserExist(ctx, next),
@@ -29,6 +42,10 @@ router
   .patch(
     "/user/:nome",
     (ctx, next) => verifyUserExist(ctx, next),
+    (ctx, next) => verifyPermitedFields(ctx, next),
+    (ctx, next) => veryifyTypeOfFields(ctx, next),
+    (ctx, next) => verifyAge(ctx, next),
+    (ctx, next) => verifyEmailAlreadyExists(ctx, next),
     (ctx) => updateController(ctx)
   );
 

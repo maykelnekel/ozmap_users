@@ -1,5 +1,4 @@
 const Router = require("koa-router");
-const static = require("koa-static");
 
 const createController = require("../controllers/users/create.controller");
 const readController = require("../controllers/users/read.controller");
@@ -12,14 +11,12 @@ const verifyPermitedFields = require("../middlewares/verifyPermitedFields.middle
 const verifyAge = require("../middlewares/verifyAge.middleware");
 const verifyEmailAlreadyExists = require("../middlewares/verifyEmailAlreadyExists.middleware");
 const veryifyTypeOfFields = require("../middlewares/veryifyTypeOfFields.middleware");
+const users = require("../database");
 
 const router = new Router();
 
-router.use(static(__dirname + "../../../public"));
-
 router.get("/", async (ctx) => {
-  ctx.type = "html";
-  ctx.body = fs.createReadStream(__dirname + "../../../public/index.html");
+  ctx.body = users;
 });
 
 router

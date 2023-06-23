@@ -17,7 +17,7 @@ describe("Testes iniciais", () => {
     chai
       .request(app)
       .get("/")
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(200);
         done();
       });
@@ -27,7 +27,7 @@ describe("Testes iniciais", () => {
     chai
       .request(app)
       .get("/users")
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(200);
         expect(res.body).to.eql([]);
         done();
@@ -41,7 +41,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .request(app)
       .post("/user")
       .send(validUsers.raupp)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(201);
         done();
       });
@@ -52,7 +52,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .request(app)
       .post("/user")
       .send(invalidUsers.semNome)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body.error).to.be.eql(
           errorMessages.campoFaltandoOuTipoInvalidoPOST
@@ -67,7 +67,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .request(app)
       .post("/user")
       .send(invalidUsers.nomeInvalido)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body.error).to.be.eql(
           errorMessages.campoFaltandoOuTipoInvalidoPOST
@@ -82,7 +82,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .request(app)
       .post("/user")
       .send(invalidUsers.semEmail)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body.error).to.be.eql(
           errorMessages.campoFaltandoOuTipoInvalidoPOST
@@ -97,7 +97,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .request(app)
       .post("/user")
       .send(invalidUsers.emailInvalido)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body.error).to.be.eql(
           errorMessages.campoFaltandoOuTipoInvalidoPOST
@@ -112,7 +112,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .request(app)
       .post("/user")
       .send(invalidUsers.semIdade)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body.error).to.be.eql(
           errorMessages.campoFaltandoOuTipoInvalidoPOST
@@ -127,7 +127,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .request(app)
       .post("/user")
       .send(invalidUsers.idadeInvalida)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body.error).to.be.eql(
           errorMessages.campoFaltandoOuTipoInvalidoPOST
@@ -142,7 +142,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .request(app)
       .post("/user")
       .send(invalidUsers.menorDeIdade)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(409);
         expect(res.body.error).to.be.eql(errorMessages.menorDeIdade);
 
@@ -155,7 +155,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .request(app)
       .post("/user")
       .send(invalidUsers.emailJaRegistrado)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(409);
         expect(res.body.error).to.be.eql(errorMessages.emailJaRegistrado);
 
@@ -168,7 +168,7 @@ describe("Testes de criação de usuários - POST /user", () => {
       .request(app)
       .post(`/user`)
       .send(invalidUsers.campoInvalido)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body).to.be.an("object");
         expect(res.body.error).to.be.eql(errorMessages.campoInvalido);
@@ -187,7 +187,7 @@ describe("Testes de leitura de todos os usuários - GET /users", () => {
     chai
       .request(app)
       .get("/users")
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(200);
         expect(res.body.length).greaterThan(4);
         done();
@@ -198,7 +198,7 @@ describe("Testes de leitura de todos os usuários - GET /users", () => {
     chai
       .request(app)
       .get("/users")
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(200);
         expect(res.body).to.not.be.an("object");
         done();
@@ -211,7 +211,7 @@ describe("Testes de leitura de um usuário - GET /user/:nome", () => {
     chai
       .request(app)
       .get("/user/raupp")
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(200);
         expect(res.body).to.be.jsonSchema(validUsers.raupp);
         done();
@@ -222,7 +222,7 @@ describe("Testes de leitura de um usuário - GET /user/:nome", () => {
     chai
       .request(app)
       .get("/user/naoExiste")
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res.status).to.be.eql(404);
         expect(res.body.error).to.be.eql(errorMessages.usuarioNaoEncontrado);
         done();
@@ -236,7 +236,7 @@ describe("Testes de atualização de um usuário - PATCH /user/:nome", () => {
       .request(app)
       .patch(`/user/${validUsers.joao.nome}`)
       .send(validUsers.attNomeJoao)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an("object");
         expect(res.body.nome).to.be.eql(validUsers.attNomeJoao.nome);
@@ -249,7 +249,7 @@ describe("Testes de atualização de um usuário - PATCH /user/:nome", () => {
       .request(app)
       .patch(`/user/${validUsers.maria.nome}`)
       .send(validUsers.attEmailMaria)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an("object");
         expect(res.body.email).to.be.eql(validUsers.attEmailMaria.email);
@@ -262,7 +262,7 @@ describe("Testes de atualização de um usuário - PATCH /user/:nome", () => {
       .request(app)
       .patch(`/user/${validUsers.jordana.nome}`)
       .send(validUsers.attIdadeJordana)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an("object");
         expect(res.body.idade).to.be.eql(validUsers.attIdadeJordana.idade);
@@ -275,7 +275,7 @@ describe("Testes de atualização de um usuário - PATCH /user/:nome", () => {
       .request(app)
       .patch(`/user/${validUsers.jordana.nome}`)
       .send(validUsers.attTudoJordana)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(200);
         expect(res.body).to.be.an("object");
         expect(res.body).to.be.eql(validUsers.attTudoJordana);
@@ -288,7 +288,7 @@ describe("Testes de atualização de um usuário - PATCH /user/:nome", () => {
       .request(app)
       .patch(`/user/${validUsers.ana.nome}`)
       .send(invalidUsers.nomeInvalido)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body).to.be.an("object");
         expect(res.body.error).to.be.eql(
@@ -303,7 +303,7 @@ describe("Testes de atualização de um usuário - PATCH /user/:nome", () => {
       .request(app)
       .patch(`/user/${validUsers.ana.nome}`)
       .send(invalidUsers.emailInvalido)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body).to.be.an("object");
         expect(res.body.error).to.be.eql(
@@ -318,7 +318,7 @@ describe("Testes de atualização de um usuário - PATCH /user/:nome", () => {
       .request(app)
       .patch(`/user/${validUsers.ana.nome}`)
       .send(invalidUsers.idadeInvalida)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body).to.be.an("object");
         expect(res.body.error).to.be.eql(
@@ -333,7 +333,7 @@ describe("Testes de atualização de um usuário - PATCH /user/:nome", () => {
       .request(app)
       .patch(`/user/${validUsers.maria.nome}`)
       .send(invalidUsers.campoInvalido)
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(400);
         expect(res.body).to.be.an("object");
         expect(res.body.error).to.be.eql(errorMessages.campoInvalido);
@@ -347,7 +347,7 @@ describe("Testes de deleção de um usuário - DELETE /user/:nome", () => {
     chai
       .request(app)
       .delete("/user/raupp")
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res).to.have.status(204);
         expect(res.body).to.be.empty;
         done();
@@ -358,7 +358,7 @@ describe("Testes de deleção de um usuário - DELETE /user/:nome", () => {
     chai
       .request(app)
       .get("/user/raupp")
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res.status).to.be.eql(404);
         expect(res.body.error).to.be.eql(errorMessages.usuarioNaoEncontrado);
         done();
@@ -369,7 +369,7 @@ describe("Testes de deleção de um usuário - DELETE /user/:nome", () => {
     chai
       .request(app)
       .get("/user/naoexiste")
-      .end(function (res) {
+      .end(function (err, res) {
         expect(res.status).to.be.eql(404);
         expect(res.body.error).to.be.eql(errorMessages.usuarioNaoEncontrado);
         done();

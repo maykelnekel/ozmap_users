@@ -1,30 +1,17 @@
-//sample test
-//Para rodar os testes, use: npm test
-//PS: Os testes não estão completos e alguns podem comnter erros.
-
-// veja mais infos em:
-//https://mochajs.org/
-//https://www.chaijs.com/
-//https://www.chaijs.com/plugins/chai-json-schema/
-//https://developer.mozilla.org/pt-PT/docs/Web/HTTP/Status (http codes)
-
-const app = require("../src/server.js");
-
-const assert = require("assert");
 const chai = require("chai");
 const chaiHttp = require("chai-http");
 const chaiJson = require("chai-json-schema");
-const userSchema = require("./schemas.js");
-const validUsers = require("./mocks.js");
+
+const app = require("../src/server.js");
+const validUsers = require("./mocks/validUsers.js");
+const invalidUsers = require("./mocks/invalidUsers.js");
+const errorMessages = require("./mocks/erroMessages.js");
 
 chai.use(chaiHttp);
 chai.use(chaiJson);
 
 const expect = chai.expect;
 
-//Inicio dos testes
-
-//testes da aplicação
 describe("Testes da aplicaçao", () => {
   it("o servidor esta online", function (done) {
     chai
@@ -65,7 +52,71 @@ describe("Testes da aplicaçao", () => {
         done();
       });
   });
-  //...adicionar pelo menos mais 5 usuarios. se adicionar usuario menor de idade, deve dar erro. Ps: não criar o usuario naoExiste
+
+  it("não deveria criar usuário sem campo nome", function (done) {
+    chai
+      .request(app)
+      .post("/user")
+      .send(invalidUsers.semNome)
+      .end(function (err, res) {
+        expect(res).to.have.status(400);
+        expext(res.body.error).to.be.eql(errorMessages.campoInvalido);
+
+        done();
+      });
+  });
+
+  it("não deveria criar usuário sem campo email", function (done) {
+    chai
+      .request(app)
+      .post("/user")
+      .send(invalidUsers.semEmail)
+      .end(function (err, res) {
+        expect(res).to.have.status(400);
+        expext(res.body.error).to.be.eql(errorMessages.campoInvalido);
+
+        done();
+      });
+  });
+
+  it("não deveria criar usuário sem campo idade", function (done) {
+    chai
+      .request(app)
+      .post("/user")
+      .send(invalidUsers.semIdade)
+      .end(function (err, res) {
+        expect(res).to.have.status(400);
+        expext(res.body.error).to.be.eql(errorMessages.campoInvalido);
+
+        done();
+      });
+  });
+
+  it("não deveria criar usuário com idade menor que 18", function (done) {
+    chai
+      .request(app)
+      .post("/user")
+      .send(invalidUsers.menorDeIdade)
+      .end(function (err, res) {
+        expect(res).to.have.status(409);
+        expext(res.body.error).to.be.eql(errorMessages.menorDeIdade);
+
+        done();
+      });
+  });
+
+  it("não deveria criar usuário com email já registrado", function (done) {
+    chai
+      .request(app)
+      .post("/user")
+      .send(invalidUsers.emailJaRegistrado)
+      .end(function (err, res) {
+        expect(res).to.have.status(409);
+        expext(res.body.error).to.be.eql(errorMessages.emailJaRegistrado);
+
+        done();
+      });
+  });
 
   it("o usuario naoExiste não existe no sistema", function (done) {
     chai
@@ -73,7 +124,7 @@ describe("Testes da aplicaçao", () => {
       .get("/user/naoExiste")
       .end(function (err, res) {
         expect(res.status).to.be.eql(404);
-        expect(res.body.error).to.be.eql("User not found");
+        expect(res.body.error).to.be.eql(errorMessages.usuarioNaoEncontrado);
         done();
       });
   });
@@ -85,7 +136,7 @@ describe("Testes da aplicaçao", () => {
       .end(function (err, res) {
         expect(err).to.be.null;
         expect(res).to.have.status(200);
-        expect(res.body).to.be.jsonSchema(userSchema);
+        expect(res.body).to.be.jsonSchema(validUsers.raupp);
         done();
       });
   });
@@ -108,7 +159,7 @@ describe("Testes da aplicaçao", () => {
       .get("/user/raupp")
       .end(function (err, res) {
         expect(res.status).to.be.eql(404);
-        expect(res.body.error).to.be.eql("User not found");
+        expect(res.body.error).to.be.eql(errorMessages.usuarioNaoEncontrado);
         done();
       });
   });

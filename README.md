@@ -9,8 +9,6 @@ Desenvolvida utilizando as ferramentas mais atuais do mercado:
 - [Mocha](https://mochajs.org/)
 - [Chai](https://www.chaijs.com/)
 
-Visite nosso [repostório](https://github.com/maykelnekel/ozmap_users) no github.
-
 #
 
 ### Iniciando o projeto
